@@ -16,8 +16,8 @@ type Client struct {
 	Logger     *log.Logger
 }
 
-func New(rawBaseURL, token string, logger *log.Logger) (*Client, error) {
-	baseURL, err := url.Parse(rawBaseURL)
+func New(cfg *Config, logger *log.Logger) (*Client, error) {
+	baseURL, err := url.Parse(cfg.EndPoint)
 	if err != nil {
 		return nil, err
 	}
@@ -29,18 +29,18 @@ func New(rawBaseURL, token string, logger *log.Logger) (*Client, error) {
 	return &Client{
 		BaseURL:    baseURL,
 		HTTPClient: http.DefaultClient,
-		Token:      token,
+		Token:      cfg.ApiToken,
 		Logger:     logger,
 	}, nil
 }
 
-
-func (c *Client) newRequest(method, relativePath string, queries, headers map[string]string, reqBody io.Reader) (*http.Request, error) {
+func (c *Client) NewRequest(method, relativePath string, queries, headers map[string]string, reqBody io.Reader) (*http.Request, error) {
 	// set path
 	reqURL, err := c.BaseURL.Parse(relativePath)
 
 	// set query
 	if queries != nil {
+		queries["key"] = c.Token
 		q := reqURL.Query()
 		for k, v := range queries {
 			q.Add(k, v)
@@ -55,9 +55,10 @@ func (c *Client) newRequest(method, relativePath string, queries, headers map[st
 	}
 
 	// set header
-	req.Header.Set("User-Agent", "qiita-go-client")
+	req.Header.Set("Accept", "application/vnd.github+json")
 	req.Header.Set("Authorization", "Bearer "+c.Token)
 	req.Header.Set("Content-Type", "application/json")
+	req.Header.Set("X-GitHub-Api-Version", "2022-11-28")
 	if headers != nil {
 		for k, v := range headers {
 			req.Header.Set(k, v)
@@ -67,21 +68,24 @@ func (c *Client) newRequest(method, relativePath string, queries, headers map[st
 	return req, nil
 }
 
-func (c *Client) doRequest(req *http.Request, respBody interface{}) (int, error) {
+func (c *Client) DoRequest(req *http.Request, respBody, respErr interface{}) (int, error) {
 	resp, err := c.HTTPClient.Do(req)
 	if err != nil {
 		return 0, err
 	}
 	defer resp.Body.Close()
 
+	// body, _ := io.ReadAll(resp.Body)
+	// fmt.Println(string(body))
+
 	if resp.StatusCode < 200 || 300 <= resp.StatusCode {
+		json.NewDecoder(resp.Body).Decode(&respErr)
 		return resp.StatusCode, nil
 	}
 
-	if err := json.NewDecoder(resp.Body).Decode(respBody); err != nil {
+	if err := json.NewDecoder(resp.Body).Decode(&respBody); err != nil {
 		return 0, err
 	}
 
 	return resp.StatusCode, nil
 }
-

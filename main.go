@@ -1,13 +1,29 @@
 package main
 
 import (
-  "go-api-client-sample/samplesdk/items"
+	"fmt"
+	"go-api-client-sample/samplesdk/client"
+	"go-api-client-sample/samplesdk/issue"
+	"os"
 )
 
 func main() {
-  items, err := items.New("aa", "token", nil)
-  if err != nil {
+	cfg := &client.Config{EndPoint: "https://api.github.com/issues", ApiToken: os.Getenv("APIKEY")}
+
+	issue, err := issue.New(cfg, nil)
+	if err != nil {
 		panic(err)
 	}
-	items.GetUserItems()
+	issueModel, err := issue.ListIssue()
+	 if err != nil {
+		panic(err)
+	}
+	fmt.Println(issueModel)
+
+	res, err := issue.CreateIssue()
+	 if err != nil {
+		panic(err)
+	}
+	fmt.Println(res[0].Title)
+
 }

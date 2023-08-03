@@ -1,0 +1,42 @@
+{
+    "location": {
+        "name": "Tokyo",
+        "region": "Tokyo",
+        "country": "Japan",
+        "lat": 35.69,
+        "lon": 139.69,
+        "tz_id": "Asia/Tokyo",
+        "localtime_epoch": 1691061498,
+        "localtime": "2023-08-03 20:18"
+    },
+    "current": {
+        "last_updated_epoch": 1691061300,
+        "last_updated": "2023-08-03 20:15",
+        "temp_c": 29.0,
+        "temp_f": 84.2,
+        "is_day": 0,
+        "condition": {
+            "text": "Clear",
+            "icon": "//cdn.weatherapi.com/weather/64x64/night/113.png",
+            "code": 1000
+        },
+        "wind_mph": 15.0,
+        "wind_kph": 24.1,
+        "wind_degree": 180,
+        "wind_dir": "S",
+        "pressure_mb": 1008.0,
+        "pressure_in": 29.77,
+        "precip_mm": 0.0,
+        "precip_in": 0.0,
+        "humidity": 84,
+        "cloud": 0,
+        "feelslike_c": 31.5,
+        "feelslike_f": 88.7,
+        "vis_km": 10.0,
+        "vis_miles": 6.0,
+        "uv": 1.0,
+        "gust_mph": 23.7,
+        "gust_kph": 38.2
+    }
+}
+

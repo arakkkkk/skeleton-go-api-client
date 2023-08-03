@@ -7,7 +7,7 @@
   state main
   state Items {
     state api:items/api.go
-    state service:items/service.go
+    state service
   }
   state client:client/client.go
 
