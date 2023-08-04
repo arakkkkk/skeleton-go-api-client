@@ -26,7 +26,21 @@ func (c *Issue) newRequest(method, relativePath string, queries, headers map[str
 	return req, err
 }
 
-func (c *Issue) doRequest(req *http.Request, respBody, respErr interface{}) (int, error) {
+func (c *Issue) doRequest(req *http.Request, respBody, respErr interface{}) (error) {
 	statusCode, err := c.DoRequest(req, respBody, respErr)
-	return statusCode, err
+	switch statusCode {
+	case http.StatusOK:
+		return nil
+	case http.StatusBadRequest:
+		return fmt.Errorf("StatusBadRequest")
+	case http.StatusUnauthorized:
+		return fmt.Errorf("StatusUnauthorized")
+	case http.StatusForbidden:
+		return fmt.Errorf("StatusForbidden")
+	case http.StatusNotFound:
+		return fmt.Errorf("StatusNotFound")
+	default:
+		fmt.Println(statusCode)
+		return err
+	}
 }

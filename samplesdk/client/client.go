@@ -2,6 +2,7 @@ package client
 
 import (
 	"encoding/json"
+	"fmt"
 	"io"
 	"log"
 	"net/http"
@@ -75,17 +76,16 @@ func (c *Client) DoRequest(req *http.Request, respBody, respErr interface{}) (in
 	}
 	defer resp.Body.Close()
 
-	// body, _ := io.ReadAll(resp.Body)
+	body, _ := io.ReadAll(resp.Body)
 	// fmt.Println(string(body))
+	fmt.Print()
 
 	if resp.StatusCode < 200 || 300 <= resp.StatusCode {
 		json.NewDecoder(resp.Body).Decode(&respErr)
 		return resp.StatusCode, nil
 	}
 
-	if err := json.NewDecoder(resp.Body).Decode(&respBody); err != nil {
-		return 0, err
-	}
+	json.Unmarshal(body, &respBody)
 
 	return resp.StatusCode, nil
 }

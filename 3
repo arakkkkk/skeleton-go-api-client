@@ -15,9 +15,10 @@ type ListIssueQuery struct {
 	PerPage  int `json:"per_page"`
 }
 
-func (c *Issue) ListIssue(listIssueQuery *ListIssueQuery) (issueModel []*IssueModel, err error) {
+func ListIssue(cfg, listIssueQuery *ListIssueQuery) (issueModel []*IssueModel, err error) {
 	relativePath := "/issues"
 
+	c := New(cfg)
 	queries := map[string]string {
 		"per_page": "2",
 	}

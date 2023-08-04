@@ -10,11 +10,11 @@ import (
 func main() {
 	cfg := &client.Config{EndPoint: "https://api.github.com", ApiToken: os.Getenv("APIKEY")}
 
-	issueC, err := issue.New(cfg, nil)
+	issueModel, err := issue.New(cfg, nil)
 	if err != nil {
 		panic(err)
 	}
-	issueModel, err := issueC.ListIssue(&issue.ListIssueQuery{})
+	issueModel, err := issue.ListIssue(&issue.ListIssueQuery{})
 	 if err != nil {
 		panic(err)
 	}
