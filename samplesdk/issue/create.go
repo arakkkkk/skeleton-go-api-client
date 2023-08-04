@@ -1,13 +1,5 @@
 package issue
 
-// curl -L \
-//   -X POST \
-//   -H "Accept: application/vnd.github+json" \
-//   -H "Authorization: Bearer <YOUR-TOKEN>" \
-//   -H "X-GitHub-Api-Version: 2022-11-28" \
-//   https://api.github.com/repos/OWNER/REPO/issues \
-//   -d '{"title":"Found a bug","body":"I'\''m having a problem with this.","assignees":["octocat"],"milestone":1,"labels":["bug"]}'
-
 import (
 	"bytes"
 	"encoding/json"
@@ -17,13 +9,15 @@ import (
 
 type CreateIssueInput struct {
 	Title string `json:"title"`
+	Assignees string `json:"assignees"`
 }
 
 func (c *Issue) CreateIssue() ([]*IssueModel, error) {
-	relativePath := "/issues"
+	relativePath := "/repos/arakkkkk/go-api-client-sample/issues"
 
 	createIssueInput := &CreateIssueInput{
 		Title: "sample",
+		Assignees: "[\"arakkkkk\"]",
 	}
 
 	b := new(bytes.Buffer)

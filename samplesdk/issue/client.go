@@ -1,7 +1,8 @@
 package issue
 
 import (
-  "go-api-client-sample/samplesdk/client"
+	"fmt"
+	"go-api-client-sample/samplesdk/client"
 	"io"
 	"log"
 	"net/http"
@@ -21,6 +22,7 @@ func New(cfg *client.Config, logger *log.Logger) (*Issue, error) {
 
 func (c *Issue) newRequest(method, relativePath string, queries, headers map[string]string, reqBody io.Reader) (*http.Request, error) {
 	req, err := c.NewRequest(method, relativePath, queries, headers, reqBody)
+	fmt.Println(req.URL)
 	return req, err
 }
 
