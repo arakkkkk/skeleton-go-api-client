@@ -14,7 +14,7 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	issueModel, err := issueC.ListIssue(&issue.ListIssueQuery{})
+	issueModel, err := issueC.ListIssue()
 	 if err != nil {
 		panic(err)
 	}

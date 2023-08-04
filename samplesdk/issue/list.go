@@ -11,11 +11,8 @@ type IssueModel struct {
 	Body  string `json:"body"`
 }
 
-type ListIssueQuery struct {
-	PerPage  int `json:"per_page"`
-}
 
-func (c *Issue) ListIssue(listIssueQuery *ListIssueQuery) (issueModel []*IssueModel, err error) {
+func (c *Issue) ListIssue() (issueModel []*IssueModel, err error) {
 	relativePath := "/issues"
 
 	queries := map[string]string {
