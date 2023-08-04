@@ -41,7 +41,6 @@ func (c *Client) NewRequest(method, relativePath string, queries, headers map[st
 
 	// set query
 	if queries != nil {
-		queries["key"] = c.Token
 		q := reqURL.Query()
 		for k, v := range queries {
 			q.Add(k, v)

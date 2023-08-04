@@ -2,6 +2,7 @@ package issue
 
 import (
 	"net/http"
+	"strconv"
 )
 
 type IssueModel struct {
@@ -11,13 +12,20 @@ type IssueModel struct {
 	Body  string `json:"body"`
 }
 
+type ListIssueQuery struct {
+	PerPage int
+}
 
-func (c *Issue) ListIssue() (issueModel []*IssueModel, err error) {
+func (q *ListIssueQuery) toMap() map[string]string {
+	return map[string]string{
+		"per_page": strconv.Itoa(q.PerPage),
+	}
+}
+
+func (c *Issue) ListIssue(listIssueQuery *ListIssueQuery) (issueModel []*IssueModel, err error) {
 	relativePath := "/issues"
 
-	queries := map[string]string {
-		"per_page": "2",
-	}
+	queries := listIssueQuery.toMap()
 
 	req, err := c.newRequest(http.MethodGet, relativePath, queries, nil, nil)
 	if err != nil {
